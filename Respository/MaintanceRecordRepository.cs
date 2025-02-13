@@ -26,6 +26,8 @@ namespace Vehicle.Repository {
         return [];
       }
     }
+
+
     public async Task<MaintenanceRecord> GetMaintenanceRecordForOwner(int ownerId) {
         try {
         return await _context.maintenanceRecords.Where(x => x.car.OwnerId == ownerId).FirstOrDefaultAsync();
