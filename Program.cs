@@ -8,7 +8,7 @@ using Vehicle.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VehicleDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).LogTo(Console.WriteLine));
 
 
 builder.Services.AddScoped<ICar, CarRepository>();

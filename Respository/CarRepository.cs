@@ -3,18 +3,21 @@
 using Microsoft.EntityFrameworkCore;
 using Vehicle.Data;
 using Vehicle.IControllers;
+using Vehicle.IRepository;
 using Vehicle.Models;
 
 namespace Vehicle.Repository {
   public class CarRepository : ICar {
-
-    private readonly VehicleDBContext _context;
+    private readonly VehicleDBContext _carContext;
     private readonly string ErrorContainer = "CarRepository";
-    public CarRepository(VehicleDBContext context) {_context = context;}
+    public CarRepository(VehicleDBContext context) {_carContext = context;}
 
-    public async Task<bool> AddCar(Car car) {
+    public async Task<bool> AddCar(Car car) { 
       try {
-          await _context.cars.AddAsync(car);
+        // insert into student (id, name) values (1, "bhanu");
+          var res = await _carContext.cars.AddAsync(car);
+          _carContext.SaveChanges();
+          Console.WriteLine("add response is: " + res);
           return true;
       } catch (Exception e) {
         Console.WriteLine(ErrorContainer + e);
@@ -24,11 +27,11 @@ namespace Vehicle.Repository {
 
     public async Task<bool> UpdateCarModel(int id, string model) {
       try {
-        var data = await _context.cars.FindAsync(id);
+        var data = await _carContext.cars.FindAsync(id);
         if (data == null) return false;
 
         data.Model = model;
-        await _context.SaveChangesAsync();
+        await _carContext.SaveChangesAsync();
         
         return true;
 
@@ -41,9 +44,9 @@ namespace Vehicle.Repository {
     public async Task<bool> DeleteCar(int CarId) {
       try {
 
-        var car = await _context.cars.FindAsync(CarId);
+        var car = await _carContext.cars.FindAsync(CarId);
         if (car == null) return false;
-        _context.cars.Remove(car);
+        _carContext.cars.Remove(car);
         return true;
 
       } catch (Exception e) {
@@ -55,10 +58,9 @@ namespace Vehicle.Repository {
 
     public async Task<IEnumerable<Car>> GetCars() {
       try {
-        var car = await _context.cars.ToListAsync();
-        // if (car == null) return false;
+        var car =  await _carContext.cars.ToListAsync();
+        Console.WriteLine("cars are: " + car);
         return car;
-        // return true;
 
       } catch (Exception e) {
          Console.WriteLine(ErrorContainer + e);
@@ -69,7 +71,7 @@ namespace Vehicle.Repository {
     public async Task<IEnumerable<Car>> GetCarWithMostMaintanceInDateRange(DateTime start, DateTime end) {
       try {
 
-        // var val = await _context.cars.Where(x => x.MaintenanceRecords.Any(y => y.Date.))
+        // var val = await _carContext.cars.Where(x => x.MaintenanceRecords.Any(y => y.Date.))
 
         return [];
 

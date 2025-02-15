@@ -2,8 +2,9 @@
 
 using Vehicle.Models;
 
-namespace Vehicle.IControllers {
+namespace Vehicle.IRepository {
   public interface ICar {
+    
     Task<IEnumerable<Car>> GetCars();
     Task<bool> AddCar(Car car);
     Task<bool> UpdateCarModel(int id, string model);

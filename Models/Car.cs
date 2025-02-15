@@ -7,7 +7,6 @@ namespace Vehicle.Models
 {
   public class Car
   {
-
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int id { get; set; }
